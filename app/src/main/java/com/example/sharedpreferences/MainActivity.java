@@ -3,6 +3,7 @@ package com.example.sharedpreferences;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -93,5 +94,10 @@ public class MainActivity extends AppCompatActivity {
         preferenceEditor.putInt("currentValue", counter);
         // save the data
         preferenceEditor.apply();
+    }
+
+    public void openSecondActivity(View view) {
+        Intent intent = new Intent(this,SecondActivity.class);
+        startActivity(intent);
     }
 }

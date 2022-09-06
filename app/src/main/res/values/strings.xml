@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SharedPreferences</string>
+    
+    <string-array name="color_names">
+        <item>Black</item>
+        <item>Red</item>
+        <item>Blue</item>
+        <item>Green</item>
+    </string-array>
 </resources>
