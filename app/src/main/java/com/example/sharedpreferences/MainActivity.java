@@ -14,9 +14,9 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView counterTextview;
     private SharedPreferences sharedPreferences;
-    // it can be any string but conventially it is more better to use app name
-    private String sharedPrefFile = BuildConfig.APPLICATION_ID;
-    int counter = 0;
+    private String sharedPrefFile;
+    private int counter = 0;
+    private String current_color = "gray";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
         counterTextview = findViewById(R.id.counter_textview);
 
+        // it can be any string but conventially it is more better to use app name
+        sharedPrefFile = getResources().getString(R.string.prefrence_file_name);
         // let's create a file with the app name. private for security purposes
         sharedPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
@@ -43,21 +45,25 @@ public class MainActivity extends AppCompatActivity {
             case R.id.black_button:
                 counterTextview.setBackgroundColor(getResources().
                         getColor(R.color.black));
+                        current_color = "black";
                 break;
 
             case R.id.red_button:
                 counterTextview.setBackgroundColor(getResources().
                         getColor(R.color.red));
+                        current_color = "red";
                 break;
 
             case R.id.blue_button:
                 counterTextview.setBackgroundColor(getResources().
                         getColor(R.color.blue));
+                        current_color = "blue";
                 break;
 
             case R.id.green_button:
                 counterTextview.setBackgroundColor(getResources().
                         getColor(R.color.green));
+                        current_color = "green";
                 break;
         }
     }
@@ -98,6 +104,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void openSecondActivity(View view) {
         Intent intent = new Intent(this,SecondActivity.class);
+        String preference_file = getResources().getString(R.string.prefrence_file_name);
+        intent.putExtra("file_name",preference_file);
+        intent.putExtra("current_color_name",current_color);
+        intent.putExtra("current_count",counter);
         startActivity(intent);
     }
 }

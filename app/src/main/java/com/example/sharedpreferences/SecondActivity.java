@@ -2,13 +2,21 @@ package com.example.sharedpreferences;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class SecondActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+    private String color_name;
+    private int current_count;
+    private TextView printColorTxt;
+    private TextView printCountTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +32,20 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+
+        // get the data from the intent
+        Intent intent = getIntent();
+        color_name = intent.getStringExtra("current_color_name");
+        current_count = intent.getIntExtra("current_count",0);
+
+        // find the textViews to show color name and count
+        printColorTxt = findViewById(R.id.currentColorTxt);
+        printCountTxt = findViewById(R.id.currentCountTxt);
+
+        // pass the values to display
+        printColorTxt.setText(color_name);
+        printCountTxt.setText(String.valueOf(current_count));
+        Log.d("COLOR",color_name);
     }
 
     @Override

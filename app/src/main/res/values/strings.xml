@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">SharedPreferences</string>
-    
+    <string name="prefrence_file_name">Preference File</string>
+
     <string-array name="color_names">
         <item>Black</item>
         <item>Red</item>
