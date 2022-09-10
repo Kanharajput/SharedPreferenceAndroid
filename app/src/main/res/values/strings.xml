@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">SharedPreferences</string>
     <string name="prefrence_file_name">Preference File</string>
+    <string name="counterUpdateKey">currentValue</string>
+    <string name="colorUpdateKey">currentColor</string>
 
     <string-array name="color_names">
-        <item>Black</item>
-        <item>Red</item>
-        <item>Blue</item>
-        <item>Green</item>
+        <item>black</item>
+        <item>red</item>
+        <item>blue</item>
+        <item>green</item>
     </string-array>
 </resources>

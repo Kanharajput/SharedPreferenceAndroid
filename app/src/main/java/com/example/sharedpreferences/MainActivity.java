@@ -1,22 +1,24 @@
 package com.example.sharedpreferences;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView counterTextview;
-    private SharedPreferences sharedPreferences;
-    private String sharedPrefFile;
+    private SharedPreferences sharedPreferences;         // shared Preference object
     private int counter = 0;
     private String current_color = "gray";
+    public static final String COLOR_EXTRA_KEY = "color";
+    public static final String COUNTER_EXTRA_KEY = "counter";
+    public static final String SHAREDPREF_EXTRA_KEY = "shared pref file";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +26,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         counterTextview = findViewById(R.id.counter_textview);
-
-        // it can be any string but conventially it is more better to use app name
-        sharedPrefFile = getResources().getString(R.string.prefrence_file_name);
         // let's create a file with the app name. private for security purposes
-        sharedPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(getString(R.string.prefrence_file_name), MODE_PRIVATE);
 
         // get the saved data back
-        counter = sharedPreferences.getInt("currentValue", 0);        // second parameter is the default value
-        int color = sharedPreferences.getInt("currentColor", getResources().
+        counter = sharedPreferences.getInt(COUNTER_EXTRA_KEY, 0);        // second parameter is the default value
+        int color = sharedPreferences.getInt(COLOR_EXTRA_KEY, getResources().
                 getColor(R.color.gray));
 
         counterTextview.setText(String.valueOf(counter));
@@ -68,46 +67,49 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // update the counter value
     public void countUp(View view) {
         counter++;
         counterTextview.setText(String.valueOf(counter));
     }
 
+    // delete the preference file
     public void resetAll(View view) {
         // reset the counter
         counter = 0;
         counterTextview.setText(String.valueOf(counter));
         // reset the color
         counterTextview.setBackgroundColor(getResources().
-                getColor(R.color.gray));
+                                                        getColor(R.color.gray));
         // also clear the SharedPreference
         SharedPreferences.Editor prefEditor = sharedPreferences.edit();
         prefEditor.clear();
         prefEditor.apply();
     }
 
-    // shared Preference File can be written in this method
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // only editor can write to the Shared Preference file
-        SharedPreferences.Editor preferenceEditor = sharedPreferences.edit();
-        // get the color
-        ColorDrawable colorDrawable = (ColorDrawable) counterTextview.getBackground();
-        int color = colorDrawable.getColor();
-        // put the key-value pairs inside the Shared Preference File
-        preferenceEditor.putInt("currentColor", color);
-        preferenceEditor.putInt("currentValue", counter);
-        // save the data
-        preferenceEditor.apply();
-    }
-
+    // this intent opens the secondActivity and pass the preference file name
     public void openSecondActivity(View view) {
         Intent intent = new Intent(this,SecondActivity.class);
-        String preference_file = getResources().getString(R.string.prefrence_file_name);
-        intent.putExtra("file_name",preference_file);
-        intent.putExtra("current_color_name",current_color);
-        intent.putExtra("current_count",counter);
+        intent.putExtra(SHAREDPREF_EXTRA_KEY,getString(R.string.prefrence_file_name));
+        intent.putExtra(COLOR_EXTRA_KEY,current_color);
+        intent.putExtra(COUNTER_EXTRA_KEY,counter);
         startActivity(intent);
+    }
+
+    // this method will call by system automatically when
+    // we return back to mainActivity from secondActivity
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // open the preference file, it will not create a new file because there is already a preference file with this name
+        sharedPreferences = getSharedPreferences(getString(R.string.prefrence_file_name), MODE_PRIVATE);
+
+        // get the saved data back
+        counter = sharedPreferences.getInt(getString(R.string.counterUpdateKey), 0);        // second parameter is the default value
+        int color = sharedPreferences.getInt(getString(R.string.colorUpdateKey),
+                                                getResources().getColor(R.color.gray));
+
+        counterTextview.setText(String.valueOf(counter));
+        counterTextview.setBackgroundColor(color);
     }
 }

@@ -93,12 +93,13 @@
         app:layout_constraintTop_toBottomOf="@+id/colorSettingTitleTXT" />
 
     <Button
-        android:id="@+id/save_button_secondAct"
+        android:id="@+id/no_change_btn_secondAct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="30dp"
-        android:text="Save"
+        android:layout_marginEnd="10dp"
+        android:text="No Change"
+        android:onClick="saveWithoutChangePref"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/countEditText" />
 
@@ -106,8 +107,9 @@
         android:id="@+id/reset_button_secondAct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="50dp"
+        android:onClick="resetPreference"
         android:text="Reset"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/countEditText" />
@@ -119,6 +121,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="50dp"
         android:text="Change"
+        android:onClick="updatePreferences"
         app:layout_constraintStart_toEndOf="@id/reset_button_secondAct"
         app:layout_constraintTop_toBottomOf="@+id/countEditText" />
 
